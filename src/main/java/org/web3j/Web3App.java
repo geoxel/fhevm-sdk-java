@@ -209,7 +209,8 @@ public class Web3App {
    }
 
    public static void decryptFHECounterValue(Web3j web3j, Config config, FhevmConfig fhevmConfig) throws Throwable {
-      ConsoleColors.println("(CC-CYAN)Retrieving FHECounter contract (CC-GREEN)" + config.FHECounterContractAddress + "(CC-RESET)");
+      ConsoleColors.println(
+            "(CC-CYAN)Retrieving FHECounter contract (CC-GREEN)" + config.FHECounterContractAddress + "(CC-RESET)");
 
       System.out.println("Generating key pair...");
 
@@ -268,8 +269,10 @@ public class Web3App {
 
          System.out.println("Success:");
 
-               ConsoleColors.println("(CC-CYAN)Counter handle: (CC-GREEN)" + counterHandle + "(CC-RESET) (encrypted type: (CC-GREEN)" + HandleHelper.getValueType(counterHandle) + "(CC-RESET))");
-         ConsoleColors.println("(CC-CYAN)Counter value : (CC-GREEN)" + value + "(CC-RESET) (Java type: (CC-GREEN)" + value.getClass() + "(CC-RESET))");
+         ConsoleColors.println("(CC-CYAN)Counter handle: (CC-GREEN)" + counterHandle
+               + "(CC-RESET) (encrypted type: (CC-GREEN)" + HandleHelper.getValueType(counterHandle) + "(CC-RESET))");
+         ConsoleColors.println("(CC-CYAN)Counter value : (CC-GREEN)" + value + "(CC-RESET) (Java type: (CC-GREEN)"
+               + value.getClass() + "(CC-RESET))");
       }
    }
 
@@ -304,10 +307,13 @@ public class Web3App {
          }
       }
 
-      ConsoleColors.println("(CC-CYAN)Encrypted input value handle: (CC-GREEN)" + encryptedValues.getHandles().get(0) + "(CC-RESET)");
-      ConsoleColors.println("(CC-CYAN)Encrypted input value proof: (CC-GREEN)" + encryptedValues.getInputProof() + "(CC-RESET)");
+      ConsoleColors.println(
+            "(CC-CYAN)Encrypted input value handle: (CC-GREEN)" + encryptedValues.getHandles().get(0) + "(CC-RESET)");
+      ConsoleColors.println(
+            "(CC-CYAN)Encrypted input value proof: (CC-GREEN)" + encryptedValues.getInputProof() + "(CC-RESET)");
 
-      ConsoleColors.println("(CC-CYAN)Retrieving FHECounter contract (CC-GREEN)" + config.FHECounterContractAddress + "(CC-RESET)");
+      ConsoleColors.println(
+            "(CC-CYAN)Retrieving FHECounter contract (CC-GREEN)" + config.FHECounterContractAddress + "(CC-RESET)");
 
       FHECounter contract = getFHECounterContract(web3j, config, fhevmConfig);
 
@@ -334,13 +340,15 @@ public class Web3App {
    }
 
    private static void printFHECounterHandle(Web3j web3j, Config config, FhevmConfig fhevmConfig) throws Throwable {
-      ConsoleColors.println("(CC-CYAN)Retrieving FHECounter contract (CC-GREEN)" + config.FHECounterContractAddress + "(CC-RESET)");
+      ConsoleColors.println(
+            "(CC-CYAN)Retrieving FHECounter contract (CC-GREEN)" + config.FHECounterContractAddress + "(CC-RESET)");
 
       FHECounter counterContract = getFHECounterContract(web3j, config, fhevmConfig);
       String counterHandle = retrieveCurrentFHECounterHandle(counterContract);
 
       ConsoleColors.println(
-            "(CC-CYAN)Counter handle: (CC-GREEN)" + counterHandle + "(CC-RESET) (encrypted type: (CC-GREEN)" + HandleHelper.getValueType(counterHandle) + "(CC-RESET))");
+            "(CC-CYAN)Counter handle: (CC-GREEN)" + counterHandle + "(CC-RESET) (encrypted type: (CC-GREEN)"
+                  + HandleHelper.getValueType(counterHandle) + "(CC-RESET))");
    }
 
    private static void silentHttpServiceDebugLogging() {
