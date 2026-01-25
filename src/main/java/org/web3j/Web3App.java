@@ -209,7 +209,7 @@ public class Web3App {
    }
 
    public static void decryptFHECounterValue(Web3j web3j, Config config, FhevmConfig fhevmConfig) throws Throwable {
-      System.out.println("Retrieving FHECounter contract " + config.FHECounterContractAddress + "...");
+      ConsoleColors.println("(CC-CYAN)Retrieving FHECounter contract (CC-GREEN)" + config.FHECounterContractAddress + "(CC-RESET)");
 
       System.out.println("Generating key pair...");
 
@@ -241,12 +241,10 @@ public class Web3App {
       System.arraycopy(signature.getV(), 0, retval, 64, 1);
       String eip712Signature = Numeric.toHexString(retval);
 
-      System.out.println("EIP-712 signature: " + eip712Signature);
+      ConsoleColors.println("(CC-CYAN)EIP-712 signature: (CC-GREEN)" + eip712Signature + "(CC-RESET)");
 
       FHECounter contract = getFHECounterContract(web3j, config, fhevmConfig);
       String counterHandle = retrieveCurrentFHECounterHandle(contract);
-      System.out.println(
-            "Counter handle: " + counterHandle + " (encrypted type: " + HandleHelper.getValueType(counterHandle) + ")");
       getKMSSigners(web3j, config, fhevmConfig);
 
       System.out.println("Decrypting handle...");
@@ -270,9 +268,8 @@ public class Web3App {
 
          System.out.println("Success:");
 
-         System.out.println("Counter handle: " + counterHandle + " (encrypted type: "
-               + HandleHelper.getValueType(counterHandle) + ")");
-         System.out.println("Counter value : " + value + " (Java type: " + value.getClass() + ")");
+               ConsoleColors.println("(CC-CYAN)Counter handle: (CC-GREEN)" + counterHandle + "(CC-RESET) (encrypted type: (CC-GREEN)" + HandleHelper.getValueType(counterHandle) + "(CC-RESET))");
+         ConsoleColors.println("(CC-CYAN)Counter value : (CC-GREEN)" + value + "(CC-RESET) (Java type: (CC-GREEN)" + value.getClass() + "(CC-RESET))");
       }
    }
 
@@ -287,7 +284,7 @@ public class Web3App {
          System.out.println("Retrieving keys from Zama server...");
          FhevmKeys.Keys keys = fhevmKeys.getOrDownload(fhevmConfig.getRelayerUrl());
 
-         System.out.println("Encrypting input value (" + Math.abs(value) + ")...");
+         ConsoleColors.println("(CC-CYAN)Encrypting input value: (CC-GREEN)" + Math.abs(value) + "(CC-RESET)");
 
          try (var builder = new EncryptedValuesBuilder(keys.getCompactPublicKeyInfo())) {
 
@@ -307,43 +304,43 @@ public class Web3App {
          }
       }
 
-      System.out.println("Encrypted input value handle: " + encryptedValues.getHandles().get(0));
-      System.out.println("Encrypted input value proof: " + encryptedValues.getInputProof());
+      ConsoleColors.println("(CC-CYAN)Encrypted input value handle: (CC-GREEN)" + encryptedValues.getHandles().get(0) + "(CC-RESET)");
+      ConsoleColors.println("(CC-CYAN)Encrypted input value proof: (CC-GREEN)" + encryptedValues.getInputProof() + "(CC-RESET)");
 
-      System.out.println("Retrieving FHECounter contract " + config.FHECounterContractAddress + "...");
+      ConsoleColors.println("(CC-CYAN)Retrieving FHECounter contract (CC-GREEN)" + config.FHECounterContractAddress + "(CC-RESET)");
 
       FHECounter contract = getFHECounterContract(web3j, config, fhevmConfig);
 
       String functionName = value >= 0 ? "increment" : "decrement";
 
-      System.out.println("Calling " + functionName + "() function...");
-
-      TransactionReceipt txReceipt;
+      ConsoleColors.println("(CC-CYAN)Calling (CC-GREEN)" + functionName + "()(CC-RESET) function...");
 
       byte[] inputEuint32 = Hex.fromHexString(Helpers.remove0xIfAny(encryptedValues.getHandles().get(0)));
       byte[] inputProof = Hex.fromHexString(Helpers.remove0xIfAny(encryptedValues.getInputProof()));
+
+      TransactionReceipt txReceipt;
       if (value >= 0) {
          txReceipt = contract.increment(inputEuint32, inputProof).send();
       } else {
          txReceipt = contract.decrement(inputEuint32, inputProof).send();
       }
 
-      System.out.println("Transaction hash: " + txReceipt.getTransactionHash());
-      System.out.println("Block number: " + txReceipt.getBlockNumber());
-      System.out.println("Gas used: " + txReceipt.getGasUsed());
+      ConsoleColors.println("(CC-CYAN)Transaction hash: (CC-GREEN)" + txReceipt.getTransactionHash() + "(CC-RESET)");
+      ConsoleColors.println("(CC-CYAN)Block number: (CC-GREEN)" + txReceipt.getBlockNumber() + "(CC-RESET)");
+      ConsoleColors.println("(CC-CYAN)Gas used: (CC-GREEN)" + txReceipt.getGasUsed() + "(CC-RESET)");
 
       String counterHandle = retrieveCurrentFHECounterHandle(contract);
-      System.out.println("New FHE Counter handle: " + counterHandle);
+      ConsoleColors.println("(CC-CYAN)New FHE Counter handle: (CC-GREEN)" + counterHandle + "(CC-RESET)");
    }
 
-   private static void PrintFHECounterHandle(Web3j web3j, Config config, FhevmConfig fhevmConfig) throws Throwable {
-      System.out.println("Retrieving FHECounter contract " + config.FHECounterContractAddress + "...");
+   private static void printFHECounterHandle(Web3j web3j, Config config, FhevmConfig fhevmConfig) throws Throwable {
+      ConsoleColors.println("(CC-CYAN)Retrieving FHECounter contract (CC-GREEN)" + config.FHECounterContractAddress + "(CC-RESET)");
 
       FHECounter counterContract = getFHECounterContract(web3j, config, fhevmConfig);
       String counterHandle = retrieveCurrentFHECounterHandle(counterContract);
 
-      System.out.println(
-            "Counter handle: " + counterHandle + " (encrypted type: " + HandleHelper.getValueType(counterHandle) + ")");
+      ConsoleColors.println(
+            "(CC-CYAN)Counter handle: (CC-GREEN)" + counterHandle + "(CC-RESET) (encrypted type: (CC-GREEN)" + HandleHelper.getValueType(counterHandle) + "(CC-RESET))");
    }
 
    private static void silentHttpServiceDebugLogging() {
@@ -395,8 +392,9 @@ public class Web3App {
       switch (command) {
          case "print-counter-handle": {
             try (Web3j web3j = createWeb3(config, fhevmConfig)) {
-               PrintFHECounterHandle(web3j, config, fhevmConfig);
+               printFHECounterHandle(web3j, config, fhevmConfig);
             }
+            break;
          }
          // case "print-public-value-handle":
          case "decrypt-counter-value": {
