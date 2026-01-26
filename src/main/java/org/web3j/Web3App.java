@@ -319,7 +319,7 @@ public class Web3App {
 
       String functionName = value >= 0 ? "increment" : "decrement";
 
-      ConsoleColors.println("(CC-CYAN)Calling (CC-GREEN)" + functionName + "()(CC-RESET) function...");
+      ConsoleColors.println("(CC-CYAN)Calling (CC-GREEN)" + functionName + "()(CC-CYAN) function...(CC-RESET)");
 
       byte[] inputEuint32 = Hex.fromHexString(Helpers.remove0xIfAny(encryptedValues.getHandles().get(0)));
       byte[] inputProof = Hex.fromHexString(Helpers.remove0xIfAny(encryptedValues.getInputProof()));
