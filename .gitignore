@@ -1,5 +1,5 @@
 build
 bin
-nodes_modules
+node_modules
 .gradle
 
